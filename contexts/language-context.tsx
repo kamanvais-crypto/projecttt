@@ -2,7 +2,7 @@
 
 import { createContext, useContext, useState, ReactNode, useEffect } from 'react';
 
-export type Language = 'english' | 'hindi' | 'tamil';
+export type Language = 'english' | 'hindi' | 'punjabi';
 
 interface LanguageContextType {
   language: Language;
@@ -126,62 +126,64 @@ const translations = {
     submitPrescription: 'प्रिस्क्रिप्शन जमा करें',
     upcomingAppointments: 'आगामी अपॉइंटमेंट',
   },
-  tamil: {
-    welcome: 'ஸ்வஸ்த்குரு-வுக்கு வரவேற்கிறோம்',
-    tagline: 'உங்கள் விரல்நுனியில் சுகாதார சேவை',
-    login: 'உள்நுழைய',
-    register: 'பதிவு செய்ய',
-    patient: 'நோயாளி',
-    doctor: 'மருத்துவர்',
-    phoneNumber: 'தொலைபேசி எண்',
-    password: 'கடவுச்சொல்',
-    email: 'மின்னஞ்சல் முகவரி',
-    name: 'முழு பெயர்',
-    dashboard: 'டாஷ்போர்டு',
-    appointments: 'சந்திப்புகள்',
-    bookAppointment: 'சந்திப்பை முன்பதிவு செய்ய',
-    myAppointments: 'எனது சந்திப்புகள்',
-    medicalRecords: 'மருத்துவ பதிவுகள்',
-    profile: 'சுயவிவரம்',
-    logout: 'வெளியேறு',
-    symptoms: 'அறிகுறிகளைத் தேர்ந்தெடுக்கவும்',
-    availableDoctors: 'கிடைக்கக்கூடிய மருத்துவர்கள்',
-    confirmAppointment: 'சந்திப்பை உறுதிப்படுத்தவும்',
-    appointmentBooked: 'சந்திப்பு வெற்றிகரமாக முன்பதிவு செய்யப்பட்டது!',
-    joinConsultation: 'ஆலோசனையில் சேரவும்',
-    cancel: 'ரத்து செய்ய',
-    reschedule: 'மறுபதிவு செய்ய',
-    home: 'முகப்பு',
-    findDoctor: 'மருத்துவரைக் கண்டறிய',
-    bookNow: 'இப்போது முன்பதிவு செய்ய',
-    viewDetails: 'விவரங்களைக் காண',
-    healthTips: 'ஆரோக்கிய குறிப்புகள்',
-    emergency: 'அவசர',
-    call: 'அழைப்பு',
-    message: 'செய்தி',
-    date: 'தேதி',
-    time: 'நேரம்',
-    status: 'நிலை',
-    confirmed: 'உறுதிப்படுத்தப்பட்டது',
-    pending: 'நிலுவையில் உள்ளது',
-    completed: 'முடிக்கப்பட்டது',
-    cancelled: 'ரத்து செய்யப்பட்டது',
-    next: 'அடுத்து',
-    back: 'பின்',
-    submit: 'சமர்ப்பிக்க',
-    chooseLanguage: 'உங்கள் மொழியைத் தேர்ந்தெடுக்கவும்',
-    userType: 'நான் ஒரு',
-    sendOTP: 'OTP அனுப்பு',
-    verifyOTP: 'OTP சரிபார்க்க',
-    enterOTP: 'உங்கள் தொலைபேசிக்கு அனுப்பப்பட்ட OTP-ஐ உள்ளிடவும்',
-    otpInfo: 'உங்கள் எண்ணை சரிபார்க்க 6-இலக்க குறியீட்டை அனுப்புவோம்',
-    uploadReport: 'அறிக்கையை பதிவேற்றுக',
-    endCall: 'அழைப்பை முடிக்க',
-    patientDetails: 'நோயாளி விவரங்கள்',
-    writeNote: 'குறிப்பு எழுதுக',
-    submitPrescription: 'மருந்து சீட்டை சமர்ப்பிக்க',
-    upcomingAppointments: 'வரவிருக்கும் சந்திப்புகள்',
+ punjabi: {
+    welcome: 'ਸਵਸਥਗੁਰੂ ਵਿੱਚ ਤੁਹਾਡਾ ਸੁਆਗਤ ਹੈ',
+    tagline: 'ਤੁਹਾਡੇ ਉਂਗਲਾਂ ਦੀ ਨੋਕ ਤੇ ਸਿਹਤ ਸੇਵਾ',
+    login: 'ਲਾਗਇਨ',
+    register: 'ਰਜਿਸਟਰ ਕਰੋ',
+    patient: 'ਮਰੀਜ਼',
+    doctor: 'ਡਾਕਟਰ',
+    phoneNumber: 'ਫੋਨ ਨੰਬਰ',
+    password: 'ਪਾਸਵਰਡ',
+    email: 'ਈਮੇਲ ਐਡਰੈੱਸ',
+    name: 'ਪੂਰਾ ਨਾਮ',
+    dashboard: 'ਡੈਸ਼ਬੋਰਡ',
+    appointments: 'ਮੁਲਾਕਾਤਾਂ',
+    bookAppointment: 'ਮੁਲਾਕਾਤ ਬੁੱਕ ਕਰੋ',
+    myAppointments: 'ਮੇਰੀਆਂ ਮੁਲਾਕਾਤਾਂ',
+    medicalRecords: 'ਮੈਡੀਕਲ ਰਿਕਾਰਡ',
+    profile: 'ਪ੍ਰੋਫਾਈਲ',
+    logout: 'ਲਾੱਗ ਆਉਟ',
+    symptoms: 'ਲੱਛਣ ਚੁਣੋ',
+    availableDoctors: 'ਉਪਲਬਧ ਡਾਕਟਰ',
+    confirmAppointment: 'ਮੁਲਾਕਾਤ ਦੀ ਪੁਸ਼ਟੀ ਕਰੋ',
+    appointmentBooked: 'ਮੁਲਾਕਾਤ ਸਫਲਤਾਪੂਰਵਕ ਬੁੱਕ ਹੋ ਗਈ!',
+    joinConsultation: 'ਸਲਾਹ ਵਿੱਚ ਸ਼ਾਮਲ ਹੋਵੋ',
+    cancel: 'ਰੱਦ ਕਰੋ',
+    reschedule: 'ਮੁੜ-ਸ਼ੈਡਿਊਲ ਕਰੋ',
+    home: 'ਮੁੱਖ ਸਫ਼ਾ',
+    findDoctor: 'ਡਾਕਟਰ ਲੱਭੋ',
+    bookNow: 'ਹੁਣੇ ਬੁੱਕ ਕਰੋ',
+    viewDetails: 'ਵੇਰਵੇ ਵੇਖੋ',
+    healthTips: 'ਸਿਹਤ ਸੁਝਾਅ',
+    emergency: 'ਐਮਰਜੈਂਸੀ',
+    call: 'ਕਾਲ',
+    message: 'ਸੁਨੇਹਾ',
+    date: 'ਤਾਰੀਖ',
+    time: 'ਸਮਾਂ',
+    status: 'ਸਥਿਤੀ',
+    confirmed: 'ਪੁਸ਼ਟੀ ਹੋਈ',
+    pending: 'ਬਕਾਇਆ',
+    completed: 'ਪੂਰਾ ਹੋਇਆ',
+    cancelled: 'ਰੱਦ ਕੀਤਾ',
+    next: 'ਅਗਲਾ',
+    back: 'ਪਿੱਛੇ',
+    submit: 'ਜਮ੍ਹਾਂ ਕਰੋ',
+    chooseLanguage: 'ਆਪਣੀ ਭਾਸ਼ਾ ਚੁਣੋ',
+    userType: 'ਮੈਂ ਇੱਕ ਹਾਂ',
+    sendOTP: 'OTP ਭੇਜੋ',
+    verifyOTP: 'OTP ਦੀ ਪੁਸ਼ਟੀ ਕਰੋ',
+    enterOTP: 'ਆਪਣੇ ਫੋਨ ਤੇ ਭੇਜੇ OTP ਦਰਜ ਕਰੋ',
+    otpInfo: 'ਅਸੀਂ ਤੁਹਾਡੇ ਨੰਬਰ ਦੀ ਪੁਸ਼ਟੀ ਕਰਨ ਲਈ 6-ਅੰਕਾਂ ਦਾ ਕੋਡ ਭੇਜਾਂਗੇ',
+    uploadReport: 'ਰਿਪੋਰਟ ਅਪਲੋਡ ਕਰੋ',
+    endCall: 'ਕਾਲ ਖਤਮ ਕਰੋ',
+    patientDetails: 'ਮਰੀਜ਼ ਦੀਆਂ ਜਾਣਕਾਰੀਆਂ',
+    writeNote: 'ਨੋਟ ਲਿਖੋ',
+    submitPrescription: 'ਨੁਸਖ਼ਾ ਜਮ੍ਹਾਂ ਕਰੋ',
+    upcomingAppointments: 'ਆਉਣ ਵਾਲੀਆਂ ਮੁਲਾਕਾਤਾਂ'
   },
+
+  
 };
 
 export function LanguageProvider({ children }: { children: ReactNode }) {
@@ -199,9 +201,10 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
     localStorage.setItem('swasthguru_language', lang);
   };
 
-  const t = (key: string): string => {
-    return translations[language][key as keyof typeof translations[Language]] || key;
-  };
+ const t = (key: string): string => {
+  const langTranslations = translations[language as keyof typeof translations];
+  return langTranslations?.[key as keyof typeof langTranslations] || key;
+};
 
   const isRTL = false; // None of our supported languages are RTL
 
