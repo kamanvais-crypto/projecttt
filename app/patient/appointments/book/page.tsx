@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 import { useAuth } from '@/hooks/use-auth';
 import { useLanguage } from '@/contexts/language-context';
 import { useNotification } from '@/contexts/notification-context';
+import { doctorsData, getAvailableDoctors, type Doctor } from '@/lib/doctors-data';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -21,16 +22,6 @@ import {
   Stethoscope,
   CheckCircle
 } from 'lucide-react';
-
-interface Doctor {
-  id: number;
-  name: string;
-  specialization: string;
-  languages: string[];
-  availability: boolean;
-  rating: number;
-  avatar?: string;
-}
 
 interface Symptom {
   id: string;
@@ -55,37 +46,6 @@ export default function BookAppointmentPage() {
       router.push('/');
     }
   }, [isAuthenticated, isDoctor, router]);
-
-  // Mock data - in a real app, this would come from an API
-  const doctors: Doctor[] = [
-    { 
-      id: 1, 
-      name: 'Dr. Priya Sharma', 
-      specialization: 'General Physician', 
-      languages: ['english', 'hindi'], 
-      availability: true, 
-      rating: 4.8,
-      avatar: '/avatars/doctor-1.jpg'
-    },
-    { 
-      id: 2, 
-      name: 'Dr. Rajesh Kumar', 
-      specialization: 'Pediatrician', 
-      languages: ['hindi', 'tamil'], 
-      availability: true, 
-      rating: 4.5,
-      avatar: '/avatars/doctor-2.jpg'
-    },
-    { 
-      id: 3, 
-      name: 'Dr. Ananya Patel', 
-      specialization: 'Gynecologist', 
-      languages: ['english', 'hindi'], 
-      availability: false, 
-      rating: 4.9,
-      avatar: '/avatars/doctor-3.jpg'
-    },
-  ];
 
   const symptoms: Record<string, string[]> = {
     english: [
@@ -120,13 +80,11 @@ export default function BookAppointmentPage() {
   ];
 
   const filteredDoctors = doctors.filter(doctor => {
+  const filteredDoctors = getAvailableDoctors(language, selectedSymptoms).filter(doctor => {
     const matchesSearch = searchQuery === '' || 
       doctor.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
       doctor.specialization.toLowerCase().includes(searchQuery.toLowerCase());
-    
-    const matchesLanguage = doctor.languages.includes(language);
-    
-    return matchesSearch && matchesLanguage && doctor.availability;
+    return matchesSearch;
   });
 
   const handleSymptomToggle = (symptom: string) => {
@@ -152,6 +110,27 @@ export default function BookAppointmentPage() {
 
   const handleBookAppointment = () => {
     // In a real app, this would make an API call to book the appointment
+    const appointmentData = {
+      id: Date.now().toString(),
+      patientId: user?.id,
+      patientName: user?.name,
+      patientPhone: user?.phone,
+      doctorId: selectedDoctor?.id,
+      doctorName: selectedDoctor?.name,
+      doctorSpecialization: selectedDoctor?.specialization,
+      date: selectedDate,
+      time: selectedTime,
+      symptoms: selectedSymptoms,
+      status: 'confirmed',
+      type: 'video',
+      consultationFee: selectedDoctor?.consultationFee
+    };
+    
+    // Store appointment in localStorage (in real app, this would be API call)
+    const existingAppointments = JSON.parse(localStorage.getItem('appointments') || '[]');
+    existingAppointments.push(appointmentData);
+    localStorage.setItem('appointments', JSON.stringify(existingAppointments));
+    
     showNotification(t('appointmentBooked'), 'success');
     router.push('/patient/dashboard');
   };
@@ -252,13 +231,20 @@ export default function BookAppointmentPage() {
                                     ).join(', ')}
                                   </span>
                                 </div>
+                                <span className="text-xs text-muted-foreground ml-1">({doctor.experience})</span>
                               </div>
                             </div>
+                          </div>
+                          <div className="mt-1">
+                            <p className="text-xs text-muted-foreground">₹{doctor.consultationFee} consultation fee</p>
                           </div>
                           <Badge variant="secondary">Available</Badge>
                         </div>
                       </CardContent>
-                    </Card>
+                      <div className="text-right">
+                        <Badge variant="secondary">Available</Badge>
+                        <p className="text-xs text-muted-foreground mt-1">{doctor.availableSlots?.length || 6} slots</p>
+                      </div>
                   ))
                 )}
               </div>
@@ -351,7 +337,7 @@ export default function BookAppointmentPage() {
                   <div>
                     <h4 className="font-medium mb-2">Time</h4>
                     <div className="flex flex-wrap gap-2">
-                      {availableTimes.map((time, index) => (
+                      {(selectedDoctor?.availableSlots || availableTimes).map((time, index) => (
                         <button
                           key={index}
                           className={`px-3 py-2 rounded-lg text-sm transition-colors ${
@@ -368,6 +354,18 @@ export default function BookAppointmentPage() {
                   </div>
                 </CardContent>
               </Card>
+              
+              {selectedDoctor && (
+                <Card>
+                  <CardHeader>
+                    <CardTitle className="text-base">Consultation Fee</CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="text-2xl font-bold text-primary">₹{selectedDoctor.consultationFee}</div>
+                    <p className="text-sm text-muted-foreground">Video consultation fee</p>
+                  </CardContent>
+                </Card>
+              )}
             </div>
 
             <div className="flex justify-between">

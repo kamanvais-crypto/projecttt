@@ -29,14 +29,17 @@ export default function PatientDashboard() {
   useEffect(() => {
     if (!isAuthenticated || isDoctor) {
       router.push('/');
+    } else {
+      // Load user's appointments from localStorage
+      const storedAppointments = JSON.parse(localStorage.getItem('appointments') || '[]');
+      const userAppointments = storedAppointments.filter((apt: any) => 
+        apt.patientId === user?.id
+      );
+      setUpcomingAppointments(userAppointments.slice(0, 3)); // Show only first 3
     }
-  }, [isAuthenticated, isDoctor, router]);
+  }, [isAuthenticated, isDoctor, router, user]);
 
-  if (!isAuthenticated || !user) {
-    return null;
-  }
-
-  const upcomingAppointments = [
+  const [upcomingAppointments, setUpcomingAppointments] = useState([
     {
       id: '1',
       doctorName: 'Dr. Priya Sharma',
@@ -45,17 +48,12 @@ export default function PatientDashboard() {
       time: '10:00 AM',
       status: 'confirmed',
       avatar: '/avatars/doctor-1.jpg'
-    },
-    {
-      id: '2',
-      doctorName: 'Dr. Ananya Patel',
-      specialization: 'Gynecologist',
-      date: '2024-01-22',
-      time: '2:30 PM',
-      status: 'pending',
-      avatar: '/avatars/doctor-2.jpg'
     }
-  ];
+  ]);
+
+  if (!isAuthenticated || !user) {
+    return null;
+  }
 
   const date = new Date();
   const formattedDate = date.toLocaleDateString('en-US', { 
@@ -113,8 +111,8 @@ export default function PatientDashboard() {
         {/* Quick Stats */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
           {[
-            { label: 'Total Appointments', value: '12', icon: Calendar, color: 'bg-primary/10 text-primary' },
-            { label: 'This Month', value: '3', icon: CalendarPlus, color: 'bg-secondary/10 text-secondary' },
+            { label: 'Total Appointments', value: upcomingAppointments.length.toString(), icon: Calendar, color: 'bg-primary/10 text-primary' },
+            { label: 'This Month', value: upcomingAppointments.length.toString(), icon: CalendarPlus, color: 'bg-secondary/10 text-secondary' },
             { label: 'Records', value: '8', icon: FileText, color: 'bg-accent/10 text-accent' },
             { label: 'Health Score', value: '85%', icon: Heart, color: 'bg-green-100 text-green-600 dark:bg-green-900 dark:text-green-300' },
           ].map((stat, index) => (
@@ -158,7 +156,7 @@ export default function PatientDashboard() {
                   </Avatar>
                   <div>
                     <p className="font-medium">{appointment.doctorName}</p>
-                    <p className="text-sm text-muted-foreground">{appointment.specialization}</p>
+                    <p className="text-sm text-muted-foreground">{appointment.doctorSpecialization || appointment.specialization}</p>
                     <p className="text-sm text-muted-foreground">
                       {new Date(appointment.date).toLocaleDateString()} at {appointment.time}
                     </p>
@@ -172,6 +170,7 @@ export default function PatientDashboard() {
                   </Badge>
                   {appointment.status === 'confirmed' && (
                     <Button size="sm" onClick={() => router.push('/patient/consultation')}>
+                    <Button size="sm" onClick={() => router.push(`/patient/consultation/${appointment.id}`)}>
                       <Video className="w-4 h-4 mr-1" />
                       Join
                     </Button>
@@ -179,6 +178,15 @@ export default function PatientDashboard() {
                 </div>
               </div>
             ))}
+            {upcomingAppointments.length === 0 && (
+              <div className="text-center py-8">
+                <p className="text-muted-foreground mb-4">No upcoming appointments</p>
+                <Button onClick={() => router.push('/patient/appointments/book')}>
+                  <Plus className="w-4 h-4 mr-2" />
+                  Book Appointment
+                </Button>
+              </div>
+            )}
           </CardContent>
         </Card>
 

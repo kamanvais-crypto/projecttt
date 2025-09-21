@@ -33,14 +33,14 @@ export default function DoctorDashboard() {
   useEffect(() => {
     if (!isAuthenticated || !isDoctor) {
       router.push('/');
+    } else {
+      // Load appointments from localStorage
+      const storedAppointments = JSON.parse(localStorage.getItem('appointments') || '[]');
+      setTodayAppointments(storedAppointments.slice(0, 3)); // Show first 3 for demo
     }
-  }, [isAuthenticated, isDoctor, router]);
+  }, [isAuthenticated, isDoctor, router, user]);
 
-  if (!isAuthenticated || !user || !isDoctor) {
-    return null;
-  }
-
-  const todayAppointments = [
+  const [todayAppointments, setTodayAppointments] = useState([
     {
       id: '1',
       patientName: 'Rahul Singh',
@@ -49,29 +49,15 @@ export default function DoctorDashboard() {
       status: 'upcoming',
       symptoms: ['Fever', 'Cough'],
       avatar: '/avatars/patient-1.jpg'
-    },
-    {
-      id: '2',
-      patientName: 'Priya Sharma',
-      time: '11:30 AM',
-      type: 'Follow-up',
-      status: 'upcoming',
-      symptoms: ['Headache'],
-      avatar: '/avatars/patient-2.jpg'
-    },
-    {
-      id: '3',
-      patientName: 'Amit Kumar',
-      time: '2:00 PM',
-      type: 'Video Consultation',
-      status: 'completed',
-      symptoms: ['Back pain'],
-      avatar: '/avatars/patient-3.jpg'
     }
-  ];
+  ]);
+
+  if (!isAuthenticated || !user || !isDoctor) {
+    return null;
+  }
 
   const stats = [
-    { label: 'Today\'s Appointments', value: '8', icon: Calendar, color: 'bg-primary/10 text-primary' },
+    { label: 'Today\'s Appointments', value: todayAppointments.length.toString(), icon: Calendar, color: 'bg-primary/10 text-primary' },
     { label: 'Total Patients', value: '156', icon: Users, color: 'bg-secondary/10 text-secondary' },
     { label: 'This Month', value: '89', icon: TrendingUp, color: 'bg-accent/10 text-accent' },
     { label: 'Avg Rating', value: '4.8', icon: Activity, color: 'bg-green-100 text-green-600 dark:bg-green-900 dark:text-green-300' },
@@ -185,9 +171,9 @@ export default function DoctorDashboard() {
                   </Avatar>
                   <div>
                     <p className="font-medium">{appointment.patientName}</p>
-                    <p className="text-sm text-muted-foreground">{appointment.type}</p>
+                    <p className="text-sm text-muted-foreground">{appointment.type || 'Video Consultation'}</p>
                     <p className="text-sm text-muted-foreground">
-                      {appointment.time} • {appointment.symptoms.join(', ')}
+                      {appointment.time} • {appointment.symptoms?.join(', ') || 'General consultation'}
                     </p>
                   </div>
                 </div>
@@ -219,6 +205,11 @@ export default function DoctorDashboard() {
                 </div>
               </div>
             ))}
+            {todayAppointments.length === 0 && (
+              <div className="text-center py-8">
+                <p className="text-muted-foreground">No appointments scheduled for today</p>
+              </div>
+            )}
           </CardContent>
         </Card>
 
