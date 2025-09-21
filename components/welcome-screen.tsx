@@ -12,12 +12,18 @@ export function WelcomeScreen() {
   const [showUserType, setShowUserType] = useState(false);
 
   const speakText = (text: string) => {
-    if ('speechSynthesis' in window) {
-      const utterance = new SpeechSynthesisUtterance(text);
-      utterance.lang = language === 'hindi' ? 'hi-IN' : language === 'tamil' ? 'ta-IN' : 'en-IN';
-      speechSynthesis.speak(utterance);
-    }
-  };
+  if ('speechSynthesis' in window) {
+    const utterance = new SpeechSynthesisUtterance(text);
+    utterance.lang =
+      language === 'hindi'
+        ? 'hi-IN'
+        : language === 'punjabi'
+        ? 'pa-IN'
+        : 'en-IN'; // default to English
+    speechSynthesis.speak(utterance);
+  }
+};
+
 
   if (showUserType) {
     return <UserTypeSelector onBack={() => setShowUserType(false)} />;
