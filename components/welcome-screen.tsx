@@ -50,7 +50,7 @@ export function WelcomeScreen() {
             {[
               { code: 'english', name: 'English', flag: '🇺🇸' },
               { code: 'hindi', name: 'हिंदी', flag: '🇮🇳' },
-              { code: 'tamil', name: 'தமிழ்', flag: '🇮🇳' },
+              { code: 'punjabi', name: 'ਪੰਜਾਬੀ', flag: '🇮🇳' },
             ].map((lang) => (
               <Button
                 key={lang.code}
